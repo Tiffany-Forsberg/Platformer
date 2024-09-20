@@ -2,12 +2,12 @@ using SFML.Graphics;
 
 namespace Platformer
 {
-    class Scene
+    public class Scene
     {
         private readonly Dictionary<string, Texture> textures;
         private readonly List<Entity> entities;
 
-        Scene()
+        public Scene()
         {
             textures = new Dictionary<string, Texture>();
             entities = new List<Entity>();

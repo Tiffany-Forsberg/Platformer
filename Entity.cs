@@ -3,7 +3,7 @@ using SFML.System;
 
 namespace Platformer
 {
-    class Entity
+    public class Entity
     {
         private readonly string textureName;
         protected readonly Sprite sprite;
