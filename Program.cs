@@ -2,7 +2,7 @@
 using SFML.System;
 using SFML.Window;
 
-namespace platformer {
+namespace Platformer {
     class Program {
         static void Main(string[] args) {
             using (var window = new RenderWindow(
@@ -17,8 +17,10 @@ namespace platformer {
                 while (window.IsOpen) {
                     window.DispatchEvents();
                     float deltaTime = clock.Restart().AsSeconds();
+                    
                     // TODO: Updates
                     window.Clear();
+                    
                     // TODO: Drawing
                     window.Display();
                 }
