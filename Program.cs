@@ -18,6 +18,7 @@ namespace Platformer {
                 window.SetView(new View(new Vector2f(200, 150), new Vector2f(400,300)));
 
                 // Spawn entities
+                scene.Spawn(new Hero{ Position = new Vector2f(18, 100)});
                 for (int i = 0; i < 10; i++)
                 {
                     scene.Spawn(new Platform { Position = new Vector2f(18 + i * 18, 288) });
