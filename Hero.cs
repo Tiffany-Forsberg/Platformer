@@ -20,6 +20,17 @@ namespace Platformer
             sprite.TextureRect = new IntRect(0, 0, 24, 24);
             sprite.Origin = new Vector2f(12, 12);
         }
+        
+        public override FloatRect Bounds {
+            get {
+                var bounds = base.Bounds;
+                bounds.Left += 3;
+                bounds.Width -= 6;
+                bounds.Top += 3;
+                bounds.Height -= 3;
+                return bounds;
+            }
+        }
 
         public override void Update(Scene scene, float deltaTime)
         {
@@ -58,9 +69,10 @@ namespace Platformer
                 if (verticalSpeed > 0.0f)
                 {
                     isGrounded = true;
+                    verticalSpeed = 0.0f;
                 }
 
-                verticalSpeed = 0.0f;
+                verticalSpeed = -0.5f * verticalSpeed;
             }
 
             if (sprite.Position.X > Program.ViewSize.X || sprite.Position.X < 0)
