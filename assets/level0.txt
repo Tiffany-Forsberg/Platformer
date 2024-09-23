@@ -1,9 +1,9 @@
-﻿# Door & Key
+﻿# Hero
+h 54 270
+
+# Door & Key
 d 342 270 level1
 k 216 72
-
-# Hero
-h 54 270
 
 # Platforms
 w 18 18
