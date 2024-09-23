@@ -62,6 +62,16 @@ namespace Platformer
 
                 verticalSpeed = 0.0f;
             }
+
+            if (sprite.Position.X > Program.ViewSize.X || sprite.Position.X < 0)
+            {
+                scene.Reload();
+            }
+            
+            if (sprite.Position.Y > Program.ViewSize.Y || sprite.Position.Y < 0)
+            {
+                scene.Reload();
+            }
         }
 
         public override void Render(RenderTarget target)

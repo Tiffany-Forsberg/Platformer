@@ -3,7 +3,10 @@ using SFML.System;
 using SFML.Window;
 
 namespace Platformer {
-    class Program {
+    class Program
+    {
+        public static Vector2f ViewSize = new Vector2f(400, 300);
+        
         static void Main(string[] args) {
             using (var window = new RenderWindow(
                 new VideoMode(800, 600),
@@ -15,7 +18,7 @@ namespace Platformer {
                 Clock clock = new Clock();
                 Scene scene = new Scene();
 
-                window.SetView(new View(new Vector2f(200, 150), new Vector2f(400,300)));
+                window.SetView(new View(ViewSize / 2, ViewSize));
 
                 scene.Load("level0");
 
