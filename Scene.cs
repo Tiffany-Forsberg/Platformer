@@ -1,4 +1,5 @@
 using SFML.Graphics;
+using SFML.System;
 
 namespace Platformer
 {
@@ -11,6 +12,31 @@ namespace Platformer
         {
             textures = new Dictionary<string, Texture>();
             entities = new List<Entity>();
+        }
+
+        public bool TryMove(Entity entity, Vector2f movement)
+        {
+            entity.Position += movement;
+            bool collided = false;
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Entity other = entities[i];
+                if (!other.Solid) continue;
+                if (other == entity) continue;
+
+                FloatRect boundsA = entity.Bounds;
+                FloatRect boundsB = other.Bounds;
+
+                if (Collision.RectangleRectangle(boundsA, boundsB, out Collision.Hit hit))
+                {
+                    entity.Position += hit.Normal * hit.Overlap;
+                    i = -1;
+                    collided = true;
+                }
+            }
+            
+            return collided;
         }
 
         public void Spawn(Entity entity)
