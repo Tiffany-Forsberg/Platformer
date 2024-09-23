@@ -6,6 +6,10 @@ namespace Platformer
 {
     public class Hero : Entity
     {
+        public const float WalkSpeed = 100.0f;
+        public const float JumpForce = 250.0f;
+        public const float GravityForce = 400.0f;
+
         private bool faceRight = false;
         
         public Hero() : base("characters")
@@ -18,13 +22,13 @@ namespace Platformer
         {
             if (Keyboard.IsKeyPressed(Keyboard.Key.Left))
             {
-                Position -= new Vector2f(100 * deltaTime, 0);
+                scene.TryMove(this, new Vector2f(-WalkSpeed * deltaTime, 0));
                 faceRight = false;
             }
             
             if (Keyboard.IsKeyPressed(Keyboard.Key.Right))
             {
-                Position += new Vector2f(100 * deltaTime, 0);
+                scene.TryMove(this, new Vector2f(WalkSpeed * deltaTime, 0));
                 faceRight = true;
             }
         }
