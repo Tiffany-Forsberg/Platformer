@@ -1,3 +1,4 @@
+using System.Text;
 using SFML.Graphics;
 using SFML.System;
 
@@ -7,6 +8,8 @@ namespace Platformer
     {
         private readonly Dictionary<string, Texture> textures;
         private readonly List<Entity> entities;
+        private string currentScene;
+        private string? nextScene;
 
         public Scene()
         {
@@ -58,8 +61,69 @@ namespace Platformer
             return texture;
         }
 
+        public void Reload()
+        {
+            nextScene = currentScene;
+        }
+
+        public void Load(string nextScene)
+        {
+            this.nextScene = nextScene;
+        }
+
+        private void HandleSceneChange()
+        {
+            if (nextScene == null) return;
+            entities.Clear();
+
+            string file = $"assets/{nextScene}.txt";
+            Console.WriteLine($"Loading scene '{file}'");
+
+            foreach (var line in File.ReadLines(file, Encoding.UTF8))
+            {
+                string parsed = line.Trim();
+
+                int commentAt = parsed.IndexOf('#');
+                if (commentAt >= 0)
+                {
+                    parsed = parsed.Substring(0, commentAt);
+                    parsed = parsed.Trim();
+                }
+
+                if (parsed.Length == 0) continue;
+
+                string[] words = parsed.Split(" ");
+
+                int x = int.Parse(words[1]);
+                int y = int.Parse(words[2]);
+                
+                switch (words[0])
+                {
+                    case "w" :
+                        Spawn(new Platform { Position = new Vector2f(x, y) });
+                        break;
+                    case "d" :
+                        Spawn(new Door { Position = new Vector2f(x, y), NextRoom = words[3]});
+                        break;
+                    case "k" :
+                        Spawn(new Key { Position = new Vector2f(x, y) });
+                        break;
+                    case "h":
+                        Spawn(new Hero { Position = new Vector2f(x, y) });
+                        break;
+                }
+            }
+
+            Spawn(new Background());
+            
+            currentScene = nextScene;
+            nextScene = null;
+        }
+
         public void UpdateAll(float deltaTime)
         {
+            HandleSceneChange();
+            
             for (int i = entities.Count - 1; i >= 0; i--)
             {
                 Entity entity = entities[i];
