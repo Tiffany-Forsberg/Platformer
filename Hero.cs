@@ -11,6 +11,9 @@ namespace Platformer
         public const float GravityForce = 400.0f;
 
         private bool faceRight = false;
+        private float verticalSpeed;
+        private bool isGrounded;
+        private bool isUpPressed;
         
         public Hero() : base("characters")
         {
@@ -30,6 +33,34 @@ namespace Platformer
             {
                 scene.TryMove(this, new Vector2f(WalkSpeed * deltaTime, 0));
                 faceRight = true;
+            }
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Up) || Keyboard.IsKeyPressed(Keyboard.Key.W))
+            {
+                if (isGrounded && !isUpPressed)
+                {
+                    verticalSpeed = -JumpForce;
+                    isUpPressed = true;
+                }
+            }
+            else
+            {
+                isUpPressed = false;
+            }
+
+            verticalSpeed += GravityForce * deltaTime;
+            if (verticalSpeed > 500.0f) verticalSpeed = 500.0f;
+
+            isGrounded = false;
+            Vector2f velocity = new Vector2f(0, verticalSpeed * deltaTime);
+            if (scene.TryMove(this, velocity))
+            {
+                if (verticalSpeed > 0.0f)
+                {
+                    isGrounded = true;
+                }
+
+                verticalSpeed = 0.0f;
             }
         }
 
