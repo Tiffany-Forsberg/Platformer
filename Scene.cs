@@ -42,6 +42,21 @@ namespace Platformer
             return collided;
         }
 
+        public bool FindByType<T>(out T found) where T : Entity
+        {
+            foreach (var entity in entities)
+            {
+                if (!entity.Dead && entity is T typed)
+                {
+                    found = typed;
+                    return true;
+                }
+            }
+            
+            found = default(T);
+            return false;
+        }
+
         public void Spawn(Entity entity)
         {
             entities.Add(entity);
