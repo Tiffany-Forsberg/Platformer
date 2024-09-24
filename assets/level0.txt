@@ -5,6 +5,9 @@ h 54 270
 d 342 270 level1
 k 216 72
 
+# Coins
+c 306 108
+
 # Platforms
 w 18 18
 w 18 36

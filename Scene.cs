@@ -123,6 +123,9 @@ namespace Platformer
                     case "k" :
                         Spawn(new Key { Position = new Vector2f(x, y) });
                         break;
+                    case "c" :
+                        Spawn(new Coin {Position = new Vector2f(x, y)});
+                        break;
                     case "h":
                         Spawn(new Hero { Position = new Vector2f(x, y) });
                         break;
