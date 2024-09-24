@@ -38,6 +38,14 @@ namespace Platformer
                 sprite.TextureRect = spriteRects[currentSprite];
                 spinTimer.Restart();
             }
+            
+            if (scene.FindByType<Hero>(out Hero hero))
+            {
+                if (Collision.RectangleRectangle(Bounds, hero.Bounds, out _))
+                {
+                    Dead = true;
+                }
+            }
         }
     }
 }
