@@ -14,11 +14,20 @@ namespace Platformer
         private float verticalSpeed;
         private bool isGrounded;
         private bool isUpPressed;
+        private Dictionary<string, IntRect> spriteRects;
+        private string currentSprite;
+        private Clock animationTimer;
         
         public Hero() : base("characters")
         {
-            sprite.TextureRect = new IntRect(0, 0, 24, 24);
+            spriteRects = new Dictionary<string, IntRect>();
+            spriteRects.Add("stand", new IntRect(0, 0, 24, 24));
+            spriteRects.Add("walk", new IntRect(24, 0, 24, 24));
+            
+            sprite.TextureRect = spriteRects["stand"];
             sprite.Origin = new Vector2f(12, 12);
+
+            animationTimer = new Clock();
         }
         
         public override FloatRect Bounds {
@@ -34,16 +43,22 @@ namespace Platformer
 
         public override void Update(Scene scene, float deltaTime)
         {
-            if (Keyboard.IsKeyPressed(Keyboard.Key.Left) || Keyboard.IsKeyPressed(Keyboard.Key.A))
-            {
-                scene.TryMove(this, new Vector2f(-WalkSpeed * deltaTime, 0));
-                faceRight = false;
-            }
-            
             if (Keyboard.IsKeyPressed(Keyboard.Key.Right) || Keyboard.IsKeyPressed(Keyboard.Key.D))
             {
                 scene.TryMove(this, new Vector2f(WalkSpeed * deltaTime, 0));
                 faceRight = true;
+                HandleWalkAnimation();
+            }
+            else if (Keyboard.IsKeyPressed(Keyboard.Key.Left) || Keyboard.IsKeyPressed(Keyboard.Key.A))
+            {
+                scene.TryMove(this, new Vector2f(-WalkSpeed * deltaTime, 0));
+                faceRight = false;
+                HandleWalkAnimation();
+            }
+            else
+            {
+                currentSprite = "stand";
+                sprite.TextureRect = spriteRects[currentSprite];
             }
 
             if (Keyboard.IsKeyPressed(Keyboard.Key.Up) || Keyboard.IsKeyPressed(Keyboard.Key.W))
@@ -74,7 +89,7 @@ namespace Platformer
 
                 verticalSpeed = -0.5f * verticalSpeed;
             }
-
+            
             if (sprite.Position.X > Program.ViewSize.X || sprite.Position.X < 0)
             {
                 scene.Reload();
@@ -84,6 +99,23 @@ namespace Platformer
             {
                 scene.Reload();
             }
+        }
+
+        private void HandleWalkAnimation()
+        {
+            if (animationTimer.ElapsedTime.AsSeconds() < 0.2f) return;
+            
+            if (currentSprite == "stand")
+            {
+                currentSprite = "walk";
+            }
+            else
+            {
+                currentSprite = "stand";
+            }
+            
+            sprite.TextureRect = spriteRects[currentSprite];
+            animationTimer.Restart();
         }
 
         public override void Render(RenderTarget target)
