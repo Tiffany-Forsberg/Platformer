@@ -44,6 +44,7 @@ namespace Platformer
                 if (Collision.RectangleRectangle(Bounds, hero.Bounds, out _))
                 {
                     Dead = true;
+                    Scene.Coins += 1;
                 }
             }
         }

@@ -6,6 +6,8 @@ namespace Platformer
 {
     public class Scene
     {
+        public static int Coins;
+        
         private readonly Dictionary<string, Texture> textures;
         private readonly List<Entity> entities;
         private string currentScene;
@@ -15,6 +17,8 @@ namespace Platformer
         {
             textures = new Dictionary<string, Texture>();
             entities = new List<Entity>();
+            
+            Coins = 0;
         }
 
         public bool TryMove(Entity entity, Vector2f movement)
@@ -132,6 +136,10 @@ namespace Platformer
                 }
             }
 
+            // Coin counter
+            Spawn(new Coin { Position = new Vector2f(345, 40) });
+            Spawn(new Gui { Position = new Vector2f(360, 40) });
+            
             Spawn(new Background());
             
             currentScene = nextScene;
