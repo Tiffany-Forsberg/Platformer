@@ -6,18 +6,18 @@ namespace Platformer
 {
     public class Coin : Entity
     {
-        private Dictionary<string , IntRect> spriteRects;
-        private string currentSprite;
+        private Dictionary<AnimationState , IntRect> spriteRects;
+        private AnimationState currentSprite;
         private Clock spinTimer;
         
         public Coin() : base("tileset")
         {
-            spriteRects = new Dictionary<string, IntRect>();
-            spriteRects.Add("flat", new IntRect(200, 128, 13, 13));
-            spriteRects.Add("tall", new IntRect(218, 128, 13, 13));
+            spriteRects = new Dictionary<AnimationState, IntRect>();
+            spriteRects.Add(AnimationState.State1, new IntRect(200, 128, 13, 13));
+            spriteRects.Add(AnimationState.State2, new IntRect(218, 128, 13, 13));
 
-            sprite.TextureRect = spriteRects["flat"];
-            currentSprite = "flat";
+            sprite.TextureRect = spriteRects[AnimationState.State1];
+            currentSprite = AnimationState.State1;
             sprite.Origin = new Vector2f(6.5f, 6.5f);
 
             spinTimer = new Clock();
@@ -27,13 +27,13 @@ namespace Platformer
         {
             if (spinTimer.ElapsedTime.AsSeconds() > 0.3f)
             {
-                if (currentSprite == "flat")
+                if (currentSprite == AnimationState.State1)
                 {
-                    currentSprite = "tall";
+                    currentSprite = AnimationState.State2;
                 }
                 else
                 {
-                    currentSprite = "flat";
+                    currentSprite = AnimationState.State1;
                 }
                 sprite.TextureRect = spriteRects[currentSprite];
                 spinTimer.Restart();

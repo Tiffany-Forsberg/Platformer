@@ -14,17 +14,17 @@ namespace Platformer
         private float verticalSpeed;
         private bool isGrounded;
         private bool isUpPressed;
-        private Dictionary<string, IntRect> spriteRects;
-        private string currentSprite;
+        private Dictionary<AnimationState, IntRect> spriteRects;
+        private AnimationState currentSprite;
         private Clock animationTimer;
         
         public Hero() : base("characters")
         {
-            spriteRects = new Dictionary<string, IntRect>();
-            spriteRects.Add("stand", new IntRect(0, 0, 24, 24));
-            spriteRects.Add("walk", new IntRect(24, 0, 24, 24));
+            spriteRects = new Dictionary<AnimationState, IntRect>();
+            spriteRects.Add(AnimationState.State1, new IntRect(0, 0, 24, 24));
+            spriteRects.Add(AnimationState.State2, new IntRect(24, 0, 24, 24));
             
-            sprite.TextureRect = spriteRects["stand"];
+            sprite.TextureRect = spriteRects[AnimationState.State1];
             sprite.Origin = new Vector2f(12, 12);
 
             animationTimer = new Clock();
@@ -57,7 +57,7 @@ namespace Platformer
             }
             else
             {
-                currentSprite = "stand";
+                currentSprite = AnimationState.State1;
                 sprite.TextureRect = spriteRects[currentSprite];
             }
 
@@ -105,13 +105,13 @@ namespace Platformer
         {
             if (animationTimer.ElapsedTime.AsSeconds() < 0.2f) return;
             
-            if (currentSprite == "stand")
+            if (currentSprite == AnimationState.State1)
             {
-                currentSprite = "walk";
+                currentSprite = AnimationState.State2;
             }
             else
             {
-                currentSprite = "stand";
+                currentSprite = AnimationState.State1;
             }
             
             sprite.TextureRect = spriteRects[currentSprite];
