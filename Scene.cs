@@ -40,6 +40,22 @@ namespace Platformer
                     entity.Position += hit.Normal * hit.Overlap;
                     i = -1;
                     collided = true;
+
+                    if (!other.Dead && other is BreakablePlatform platform)
+                    {
+                        if (
+                            platform.Bounds.Left + 2 < entity.Bounds.Left + entity.Bounds.Width &&
+                            platform.Bounds.Left + platform.Bounds.Width - 2 > entity.Bounds.Left
+                        )
+                        {
+                            if (entity.Bounds.Top < platform.Bounds.Top);
+                            else if (platform.Bounds.Top + platform.Bounds.Height >= entity.Bounds.Top)
+                            {
+                                platform.IsBroken = true;
+                                platform.BreakTimer = new Clock();
+                            }
+                        }
+                    }
                 }
             }
             
@@ -120,6 +136,9 @@ namespace Platformer
                 {
                     case "w" :
                         Spawn(new Platform { Position = new Vector2f(x, y) });
+                        break;
+                    case "b" :
+                        Spawn(new BreakablePlatform { Position = new Vector2f(x, y) });
                         break;
                     case "d" :
                         Spawn(new Door { Position = new Vector2f(x, y), NextRoom = words[3]});
