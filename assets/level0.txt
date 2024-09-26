@@ -5,6 +5,9 @@ h 54 270
 d 342 270 level1
 k 216 72
 
+# Secret Door
+s 324 108 levelX
+
 # Coins
 c 306 108
 c 90 72

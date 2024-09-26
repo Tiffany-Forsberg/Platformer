@@ -110,6 +110,7 @@ namespace Platformer
         {
             if (nextScene == null) return;
             entities.Clear();
+            Spawn(new Background());
 
             string file = $"assets/{nextScene}.txt";
             Console.WriteLine($"Loading scene '{file}'");
@@ -143,6 +144,9 @@ namespace Platformer
                     case "d" :
                         Spawn(new Door { Position = new Vector2f(x, y), NextRoom = words[3]});
                         break;
+                    case "s" :
+                        Spawn(new SecretLevelDoor { Position = new Vector2f(x, y), NextRoom = words[3] });
+                        break;
                     case "k" :
                         Spawn(new Key { Position = new Vector2f(x, y) });
                         break;
@@ -158,8 +162,6 @@ namespace Platformer
             // Coin counter
             Spawn(new Coin { Position = new Vector2f(345, 40) });
             Spawn(new Gui { Position = new Vector2f(360, 40) });
-            
-            Spawn(new Background());
             
             currentScene = nextScene;
             nextScene = null;
@@ -185,7 +187,7 @@ namespace Platformer
 
         public void RenderAll(RenderTarget target)
         {
-            for (int i = entities.Count - 1; i >= 0; i--)
+            for (int i = 0; i < entities.Count; i++)
             {
                 Entity entity = entities[i];
                 entity.Render(target);
