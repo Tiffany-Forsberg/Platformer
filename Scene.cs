@@ -48,7 +48,7 @@ namespace Platformer
                             platform.Bounds.Left + platform.Bounds.Width - 2 > entity.Bounds.Left
                         )
                         {
-                            if (entity.Bounds.Top < platform.Bounds.Top);
+                            if (entity.Bounds.Top < platform.Bounds.Top); // Bugfix for issue where platform breaks when player jumps of it
                             else if (platform.Bounds.Top + platform.Bounds.Height >= entity.Bounds.Top)
                             {
                                 platform.IsBroken = true;
